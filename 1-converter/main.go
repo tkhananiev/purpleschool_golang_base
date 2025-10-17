@@ -7,13 +7,9 @@ import (
 const (
 	usdToEur = 0.85
 	usdToRub = 80.5
+	eurToRub = usdToRub / usdToEur
 )
 
 func main() {
-	fmt.Println(eurToRub(50))
-
-}
-
-func eurToRub(usd float64) float64 {
-	return usdToRub / usdToEur
+	fmt.Println(eurToRub)
 }
