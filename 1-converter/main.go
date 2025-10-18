@@ -13,3 +13,11 @@ const (
 func main() {
 	fmt.Println(eurToRub)
 }
+
+func userInput(originalСurrency, intermediateCurrency, finalCurrency string) (string, string, string) {
+	return originalСurrency, intermediateCurrency, finalCurrency
+}
+
+func convert(quantity int, originalСurrency string, finalCurrency string) float64 {
+	return 0
+}
