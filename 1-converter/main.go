@@ -14,10 +14,10 @@ func main() {
 	fmt.Println(eurToRub)
 }
 
-func userInput(originalСurrency, intermediateCurrency, finalCurrency string) (string, string, string) {
-	return originalСurrency, intermediateCurrency, finalCurrency
+func userInput(originalCurrency, intermediateCurrency, finalCurrency string) (string, string, string) {
+	return originalCurrency, intermediateCurrency, finalCurrency
 }
 
-func convert(quantity int, originalСurrency string, finalCurrency string) float64 {
+func convert(quantity float64, originalCurrency string, finalCurrency string) float64 {
 	return 0
 }
