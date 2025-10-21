@@ -8,17 +8,36 @@ import (
 const (
 	usdToEur = 0.85
 	usdToRub = 80.5
+	eurToUsd = 1 / usdToEur
+	rubToUsd = 1 / usdToRub
 	eurToRub = usdToRub / usdToEur
+	rubToEur = 1 / eurToRub
 )
 
 func main() {
 
 	originalCurrency, quantity, finalCurrency := userInput()
-	fmt.Println(originalCurrency, quantity, finalCurrency)
+	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency)
+	fmt.Printf("При обмене %.1f %s вы получите %.1f %s", quantity, originalCurrency, finalCurrencyQuantity, finalCurrency)
 }
 
 func convert(originalCurrency string, quantity float64, finalCurrency string) float64 {
-	return 0
+	var finalCurrencyQuantity float64
+	switch {
+	case originalCurrency == "eur" && finalCurrency == "usd":
+		finalCurrencyQuantity = eurToUsd * quantity
+	case originalCurrency == "eur" && finalCurrency == "rub":
+		finalCurrencyQuantity = eurToRub * quantity
+	case originalCurrency == "usd" && finalCurrency == "eur":
+		finalCurrencyQuantity = usdToEur * quantity
+	case originalCurrency == "usd" && finalCurrency == "rub":
+		finalCurrencyQuantity = usdToRub * quantity
+	case originalCurrency == "rub" && finalCurrency == "usd":
+		finalCurrencyQuantity = rubToUsd * quantity
+	case originalCurrency == "rub" && finalCurrency == "eur":
+		finalCurrencyQuantity = rubToEur * quantity
+	}
+	return finalCurrencyQuantity
 }
 
 func userInput() (string, float64, string) {
