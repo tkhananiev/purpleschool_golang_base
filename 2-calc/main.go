@@ -4,17 +4,15 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"regexp"
+	"sort"
 	"strconv"
-
-	//"strconv"
 	"strings"
 )
 
 func main() {
-	//fmt.Println(userInputOperations())
-	//fmt.Println(userInputNums())
-	userInputNums()
+	operations := userInputOperations()
+	nums := userInputNums()
+	fmt.Printf("Результат операции: %.1f", calculate(operations, nums))
 }
 
 func userInputOperations() string {
@@ -35,31 +33,53 @@ func userInputOperations() string {
 	return ""
 }
 
-func userInputNums() []int {
-	var inputString string
-	var inputStrToInt []int
-	pattern := `^\s*\d+(\s*,\s*\d+)*\s*$`
-	re := regexp.MustCompile(pattern)
-
+func userInputNums() []float64 {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Print("Введите числа, разделённые запятыми (например: 1,2,3): ")
-
-	// Читаем строку ввода
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(input)
 
-	if re.MatchString(input) {
-		fmt.Println("✅ Ввод корректный!")
-		inputString += input
-	} else {
-		fmt.Println("❌ Ошибка: ожидается формат чисел, разделённых запятыми (например: 1,2,3)")
-	}
-	parts := strings.Split(inputString, ",")
-	for _, part := range parts {
-		itemInt, _ := strconv.Atoi(part)
-		inputStrToInt = append(inputStrToInt, itemInt)
+	parts := strings.Split(input, ",")
+	var result []float64
 
+	for _, part := range parts {
+		part = strings.TrimSpace(part)
+		num, err := strconv.ParseFloat(part, 64)
+		if err != nil {
+			fmt.Println("❌ Ошибка: неверный формат числа →", part)
+			return nil
+		}
+		result = append(result, num)
 	}
-	return inputStrToInt
+
+	fmt.Println("✅ Ввод корректный!")
+	return result
+}
+
+func calculate(userInputOperations string, userInputNums []float64) float64 {
+	var result float64
+	switch userInputOperations {
+	case "avg":
+		var sum float64
+		for _, num := range userInputNums {
+			sum += num
+		}
+		result = sum / float64(len(userInputNums))
+	case "sum":
+		for _, num := range userInputNums {
+			result += num
+		}
+	case "med":
+		sort.Float64s(userInputNums)
+		n := len(userInputNums)
+		if n == 0 {
+			result = 0
+		}
+		if n%2 == 1 {
+			result = userInputNums[n/2]
+		}
+		result = (userInputNums[n/2-1] + userInputNums[n/2]) / 2
+	}
+	return result
 }
