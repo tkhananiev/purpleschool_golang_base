@@ -71,15 +71,17 @@ func calculate(userInputOperations string, userInputNums []float64) float64 {
 			result += num
 		}
 	case "med":
-		sort.Float64s(userInputNums)
 		n := len(userInputNums)
 		if n == 0 {
-			result = 0
+			return 0 // или math.NaN()
 		}
+		sort.Float64s(userInputNums)
+
 		if n%2 == 1 {
-			result = userInputNums[n/2]
+			return userInputNums[n/2] // нечётное — середина
+		} else {
+			return (userInputNums[n/2-1] + userInputNums[n/2]) / 2 // чётное — среднее двух
 		}
-		result = (userInputNums[n/2-1] + userInputNums[n/2]) / 2
 	}
 	return result
 }
