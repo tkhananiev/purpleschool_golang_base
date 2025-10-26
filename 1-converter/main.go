@@ -17,14 +17,14 @@ var rates = map[string]float64{
 func main() {
 
 	originalCurrency, quantity, finalCurrency := userInput()
-	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency, rates)
+	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency)
 
 	fmt.Printf("При обмене %.1f %s вы получите %.1f %s\n",
 		quantity, strings.ToUpper(originalCurrency),
 		finalCurrencyQuantity, strings.ToUpper(finalCurrency))
 }
 
-func convert(originalCurrency string, quantity float64, finalCurrency string, rates map[string]float64) float64 {
+func convert(originalCurrency string, quantity float64, finalCurrency string) float64 {
 	key := originalCurrency + "_" + finalCurrency
 	rate, exists := rates[key]
 	if !exists {
