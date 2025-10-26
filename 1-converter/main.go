@@ -5,15 +5,16 @@ import (
 	"strings"
 )
 
+var rates = map[string]float64{
+	"eur_usd": 1 / 0.85, // 1 EUR = 1.176 USD
+	"eur_rub": 80.5 / 0.85,
+	"usd_eur": 0.85,
+	"usd_rub": 80.5,
+	"rub_usd": 1 / 80.5,
+	"rub_eur": 1 / (80.5 / 0.85),
+}
+
 func main() {
-	rates := map[string]float64{
-		"eur_usd": 1 / 0.85, // 1 EUR = 1.176 USD
-		"eur_rub": 80.5 / 0.85,
-		"usd_eur": 0.85,
-		"usd_rub": 80.5,
-		"rub_usd": 1 / 80.5,
-		"rub_eur": 1 / (80.5 / 0.85),
-	}
 
 	originalCurrency, quantity, finalCurrency := userInput()
 	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency, rates)
