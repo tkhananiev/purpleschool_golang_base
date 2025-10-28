@@ -19,7 +19,6 @@ var rates = map[string]map[string]float64{
 		"rub_eur": 1 / (80.5 / 0.85),
 	},
 }
-var ptrRates = &rates
 
 func main() {
 
