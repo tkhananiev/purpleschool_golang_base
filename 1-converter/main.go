@@ -5,28 +5,35 @@ import (
 	"strings"
 )
 
-var rates = map[string]float64{
-	"eur_usd": 1 / 0.85, // 1 EUR = 1.176 USD
-	"eur_rub": 80.5 / 0.85,
-	"usd_eur": 0.85,
-	"usd_rub": 80.5,
-	"rub_usd": 1 / 80.5,
-	"rub_eur": 1 / (80.5 / 0.85),
+var rates = map[string]map[string]float64{
+	"eur": {
+		"eur_usd": 1 / 0.85,
+		"eur_rub": 80.5 / 0.85,
+	},
+	"usd": {
+		"usd_eur": 0.85,
+		"usd_rub": 80.5,
+	},
+	"rub": {
+		"rub_usd": 1 / 80.5,
+		"rub_eur": 1 / (80.5 / 0.85),
+	},
 }
 
 func main() {
 
 	originalCurrency, quantity, finalCurrency := userInput()
-	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency)
+	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency, rates)
 
 	fmt.Printf("При обмене %.1f %s вы получите %.1f %s\n",
 		quantity, strings.ToUpper(originalCurrency),
 		finalCurrencyQuantity, strings.ToUpper(finalCurrency))
 }
 
-func convert(originalCurrency string, quantity float64, finalCurrency string) float64 {
+func convert(originalCurrency string, quantity float64, finalCurrency string, rates map[string]map[string]float64) float64 {
 	key := originalCurrency + "_" + finalCurrency
-	rate, exists := rates[key]
+	originalCurrencyRate := rates[originalCurrency]
+	rate, exists := originalCurrencyRate[key]
 	if !exists {
 		fmt.Println("Неизвестная комбинация валют")
 		return 0
