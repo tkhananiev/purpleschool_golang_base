@@ -19,20 +19,25 @@ var rates = map[string]map[string]float64{
 		"rub_eur": 1 / (80.5 / 0.85),
 	},
 }
+var ptrRates = &rates
 
 func main() {
 
 	originalCurrency, quantity, finalCurrency := userInput()
-	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency, rates)
+	finalCurrencyQuantity := convert(originalCurrency, quantity, finalCurrency, &rates)
 
 	fmt.Printf("При обмене %.1f %s вы получите %.1f %s\n",
 		quantity, strings.ToUpper(originalCurrency),
 		finalCurrencyQuantity, strings.ToUpper(finalCurrency))
 }
 
-func convert(originalCurrency string, quantity float64, finalCurrency string, rates map[string]map[string]float64) float64 {
+func convert(originalCurrency string, quantity float64, finalCurrency string, rates *map[string]map[string]float64) float64 {
 	key := originalCurrency + "_" + finalCurrency
-	originalCurrencyRate := rates[originalCurrency]
+	originalCurrencyRate, exist := (*rates)[originalCurrency]
+	if !exist {
+		fmt.Println("Неизвестная исходная валюта")
+		return 0
+	}
 	rate, exists := originalCurrencyRate[key]
 	if !exists {
 		fmt.Println("Неизвестная комбинация валют")
