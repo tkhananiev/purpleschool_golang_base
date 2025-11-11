@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"passwordGenerator/account"
 )
+
+var vault = account.NewVault()
 
 func main() {
 	fmt.Println("Менеджер паролей")
@@ -14,7 +17,7 @@ Menu:
 		case 1:
 			createAccount()
 		case 2:
-			FindAccountByLogin()
+			FindAccount()
 		case 3:
 			deleteAccount()
 		case 4:
@@ -33,7 +36,6 @@ func createAccount() {
 		fmt.Println("Invalid login or url")
 		return
 	}
-	var vault = account.NewVault()
 	vault.AddAccount(*myAccount)
 }
 
@@ -52,7 +54,18 @@ func printMenu() int {
 	return choice
 }
 
-func FindAccountByLogin() {
+func FindAccount() {
+	url := promtData("Введите url: ")
+	accounts := vault.FindAccountByUrl(url)
+	if len(accounts) == 0 {
+		//fmt.Println("Аккаунт не найден")
+		color.Red("Аккаунт не найден")
+		return
+	}
+	for _, account := range accounts {
+		account.Output()
+	}
 }
+
 func deleteAccount() {
 }

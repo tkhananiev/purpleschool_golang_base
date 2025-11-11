@@ -2,7 +2,7 @@ package account
 
 import (
 	"errors"
-	"fmt"
+	"github.com/fatih/color"
 	"math/rand"
 	"net/url"
 	"time"
@@ -39,9 +39,10 @@ func NewAccount(login, password, urlString string) (*Account, error) {
 	return newAcc, nil
 }
 
-func (acc *Account) OutputPassword() {
-	fmt.Print(acc.Login, " ", acc.Password, " ", acc.Url)
-
+func (acc *Account) Output() {
+	color.Cyan(acc.Login)
+	color.Cyan(acc.Password)
+	color.Cyan(acc.Url)
 }
 
 func (acc *Account) generatePassword(n int) {
