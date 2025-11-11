@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"passwordGenerator/account"
-	"passwordGenerator/files"
 )
 
 func main() {
@@ -15,7 +14,7 @@ Menu:
 		case 1:
 			createAccount()
 		case 2:
-			findAccount()
+			FindAccountByLogin()
 		case 3:
 			deleteAccount()
 		case 4:
@@ -34,19 +33,8 @@ func createAccount() {
 		fmt.Println("Invalid login or url")
 		return
 	}
-	file, err := myAccount.ToBites()
-	if err != nil {
-		fmt.Println("Не удалось сохранить в JSON")
-		return
-	}
-	files.WriteFile(file, "data.json")
-	fmt.Println(string(file))
-}
-func findAccount() {
-
-}
-func deleteAccount() {
-
+	var vault = account.NewVault()
+	vault.AddAccount(*myAccount)
 }
 
 func promtData(promt string) string {
@@ -58,8 +46,13 @@ func promtData(promt string) string {
 
 func printMenu() int {
 	var choice int
-	fmt.Print("Введите пункт меню: ")
+	fmt.Println("Введите пункт меню: ")
 	fmt.Println("1. Создать аккаунт\n2. Найти аккаунт\n3. Удалить аккаунт\n4. Выйти")
 	fmt.Scanln(&choice)
 	return choice
+}
+
+func FindAccountByLogin() {
+}
+func deleteAccount() {
 }

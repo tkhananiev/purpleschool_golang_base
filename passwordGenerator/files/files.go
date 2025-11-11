@@ -5,13 +5,12 @@ import (
 	"os"
 )
 
-func ReadFile() {
-	data, err := os.ReadFile("./files/data.json")
+func ReadFile(name string) ([]byte, error) {
+	data, err := os.ReadFile(name)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return nil, err
 	}
-	fmt.Println(string(data))
+	return data, nil
 }
 func WriteFile(content []byte, filename string) {
 	file, err := os.Create(filename)
@@ -26,5 +25,4 @@ func WriteFile(content []byte, filename string) {
 		return
 	}
 	fmt.Println("file has been created")
-
 }

@@ -1,7 +1,6 @@
 package account
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -51,12 +50,4 @@ func (acc *Account) generatePassword(n int) {
 		passwd[i] = runes[rand.Intn(len(runes))]
 	}
 	acc.Password = string(passwd)
-}
-
-func (acc *Account) ToBites() ([]byte, error) {
-	file, err := json.Marshal(acc)
-	if err != nil {
-		return nil, err
-	}
-	return file, nil
 }

@@ -1,1 +1,10 @@
-{"login":"timur","password":"pwAp5hag96T*AR2B8YbB","url":"https://ya.ru","createdAt":"2025-11-09T10:09:00.926512+03:00","updatedAt":"2025-11-09T10:09:00.926512+03:00"}
+{"accounts":[
+  {"login":"timur","password":"ZDLDcX3RC7Tgowya#(TS",
+    "url":"https://timur.ru",
+    "createdAt":"2025-11-11T04:28:33.29189+03:00",
+    "updatedAt":"2025-11-11T04:28:33.29189+03:00"},
+  {"login":"Vika","password":"y)Q^Mmr$\u0026otHu621AcvA",
+    "url":"https://vika.ru",
+    "createdAt":"2025-11-11T04:28:56.50233+03:00",
+    "updatedAt":"2025-11-11T04:28:56.502331+03:00"}
+],"updatedAt":"2025-11-11T04:28:56.502931+03:00"}
