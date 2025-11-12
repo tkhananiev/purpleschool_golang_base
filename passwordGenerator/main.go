@@ -6,20 +6,20 @@ import (
 	"passwordGenerator/account"
 )
 
-var vault = account.NewVault()
-
 func main() {
+	var vault = account.NewVault()
 	fmt.Println("Менеджер паролей")
+
 Menu:
 	for {
 		choice := printMenu()
 		switch choice {
 		case 1:
-			createAccount()
+			createAccount(vault)
 		case 2:
-			FindAccount()
+			FindAccount(vault)
 		case 3:
-			deleteAccount()
+			deleteAccount(vault)
 		case 4:
 			break Menu
 
@@ -27,7 +27,7 @@ Menu:
 	}
 }
 
-func createAccount() {
+func createAccount(vault *account.Vault) {
 	login := promtData("Введите логин: ")
 	password := promtData("Введите пароль: ")
 	url := promtData("Введите url:  ")
@@ -54,11 +54,10 @@ func printMenu() int {
 	return choice
 }
 
-func FindAccount() {
+func FindAccount(vault *account.Vault) {
 	url := promtData("Введите url: ")
 	accounts := vault.FindAccountByUrl(url)
 	if len(accounts) == 0 {
-		//fmt.Println("Аккаунт не найден")
 		color.Red("Аккаунт не найден")
 		return
 	}
@@ -67,5 +66,12 @@ func FindAccount() {
 	}
 }
 
-func deleteAccount() {
+func deleteAccount(vault *account.Vault) {
+	url := promtData("Введите URL аккаунта для удаления: ")
+	isDeleted := vault.DeleteAccountByUrl(url)
+	if isDeleted {
+		color.Green("✅ Аккаунт успешно удалён")
+	} else {
+		color.Red("❌ Аккаунт не найден")
+	}
 }

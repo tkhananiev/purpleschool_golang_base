@@ -3,9 +3,7 @@ package account
 import (
 	"encoding/json"
 	"github.com/fatih/color"
-	"os"
 	"passwordGenerator/files"
-	"strings"
 	"time"
 )
 
@@ -15,7 +13,7 @@ type Vault struct {
 }
 
 func NewVault() *Vault {
-	file, err := os.ReadFile("data.json")
+	file, err := files.ReadFile("data.json")
 	if err != nil {
 		return &Vault{
 			Accounts:  []Account{},
@@ -51,10 +49,30 @@ func (vault *Vault) ToBites() ([]byte, error) {
 func (vault *Vault) FindAccountByUrl(url string) []Account {
 	accounts := []Account{}
 	for _, account := range vault.Accounts {
-		isMached := strings.Contains(account.Url, url)
+		isMached := account.Url == url
 		if isMached {
 			accounts = append(accounts, account)
 		}
 	}
 	return accounts
+}
+func (vault *Vault) DeleteAccountByUrl(url string) bool {
+	accounts := []Account{}
+	var deleted bool = false
+	for _, account := range vault.Accounts {
+		isMached := account.Url == url
+		if !isMached {
+			accounts = append(accounts, account)
+			continue
+		}
+		deleted = true
+	}
+	vault.Accounts = accounts
+	vault.UpdatedAt = time.Now()
+	data, err := vault.ToBites()
+	if err != nil {
+		color.Red("Ошибка сериализации при удалении")
+	}
+	files.WriteFile(data, "data.json")
+	return deleted
 }
