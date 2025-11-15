@@ -4,6 +4,7 @@ import (
 	"3-struct/bins"
 	"3-struct/files"
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
@@ -20,6 +21,9 @@ func BinListToJSON(binList []bins.Bin, filename string) error {
 }
 
 func ReadJSONFile(filePath string) ([]bins.Bin, error) {
+	if !files.IsJSON(filePath) {
+		return nil, fmt.Errorf("file %s is not JSON", filePath)
+	}
 	data, err := files.ReadFile(filePath)
 	if err != nil {
 		return nil, err

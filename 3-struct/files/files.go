@@ -2,6 +2,8 @@ package files
 
 import (
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 func ReadFile(filePath string) ([]byte, error) {
@@ -10,4 +12,7 @@ func ReadFile(filePath string) ([]byte, error) {
 		return nil, err
 	}
 	return file, nil
+}
+func IsJSON(filename string) bool {
+	return strings.ToLower(filepath.Ext(filename)) == ".json"
 }
