@@ -29,12 +29,7 @@ func NewVault() *Vault {
 }
 func (vault *Vault) AddAccount(acc Account) {
 	vault.Accounts = append(vault.Accounts, acc)
-	vault.UpdatedAt = time.Now()
-	data, err := vault.ToBites()
-	if err != nil {
-		color.Red("Не удалось преобразовать data.json")
-	}
-	files.WriteFile(data, "data.json")
+	vault.save()
 }
 
 func (vault *Vault) ToBites() ([]byte, error) {
@@ -68,11 +63,15 @@ func (vault *Vault) DeleteAccountByUrl(url string) bool {
 		deleted = true
 	}
 	vault.Accounts = accounts
+	vault.save()
+	return deleted
+}
+func (vault *Vault) save() {
 	vault.UpdatedAt = time.Now()
 	data, err := vault.ToBites()
 	if err != nil {
-		color.Red("Ошибка сериализации при удалении")
+		color.Red("Не удалось преобразовать data.json")
 	}
 	files.WriteFile(data, "data.json")
-	return deleted
+
 }
